@@ -17,7 +17,7 @@ body {
 }
 
 .gallery-item {
-  overflow: hidden;
+  position: relative;
 }
 
 .gallery-link {
@@ -30,7 +30,15 @@ body {
   height: 200px;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform, box-shadow;
+}
+
+.gallery-image:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 10;
 }
 
 @media screen and (max-width: 1127px) {

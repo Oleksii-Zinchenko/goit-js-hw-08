@@ -49,7 +49,6 @@ const images = [
 const gallery = document.querySelector('.gallery');
 
 gallery.insertAdjacentHTML('beforeend', galleryMarkup(images));
-
 gallery.addEventListener('click', handleClick);
 
 function galleryMarkup(arr) {
@@ -73,15 +72,26 @@ function galleryMarkup(arr) {
 function handleClick(event) {
   event.preventDefault();
 
-  if (event.target.nodeName !== 'IMG') {
-    return;
-  }
+  if (!event.target.classList.contains('gallery-image')) return;
 
   const largeImage = event.target.dataset.source;
+  const description = event.target.alt;
 
-  const instance = basicLightbox.create(`
-    <img src="${largeImage}">
-  `);
+  const instance = basicLightbox.create(
+    `
+    <img src="${largeImage}" alt="${description}">`,
+    {
+      onShow: instance => {
+        const onEscPress = e => {
+          if (e.key === 'Escape') {
+            instance.close();
+            document.removeEventListener('keydown', onEscPress);
+          }
+        };
+        document.addEventListener('keydown', onEscPress);
+      },
+    }
+  );
 
   instance.show();
 }
